@@ -1,25 +1,41 @@
 {
   "title": "Visibuild Office Wall",
-  "eyebrow": "Test playlist",
+  "eyebrow": "Brand loops",
   "autoStartSeconds": 60,
+  "livePreviews": true,
+
   "videos": [
     {
-      "title": "Test clip one",
-      "note": "Public sample file — swap for your own",
-      "duration": "0:15",
-      "file": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+      "title": "Wordmark — white on blue",
+      "file": "FOF-00-wordmark-white-on-blue.mp4"
     },
     {
-      "title": "Test clip two",
-      "note": "Public sample file — swap for your own",
-      "duration": "0:15",
-      "file": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+      "title": "Wordmark — green on slate",
+      "file": "FOF-00-2-wordmark-green-on-slate.mp4"
     },
     {
-      "title": "Test clip three",
-      "note": "Public sample file — swap for your own",
-      "duration": "0:15",
-      "file": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+      "title": "Mark — slate on orange",
+      "file": "FOF-01-mark-slate-on-orange.mp4"
+    },
+    {
+      "title": "Mark — green on slate",
+      "file": "FOF-02-mark-green-on-slate.mp4"
+    },
+    {
+      "title": "Cycle — purple on slate",
+      "file": "FOF-02-1-cycle-purple-on-slate.mp4"
+    },
+    {
+      "title": "Cycle — blue on slate",
+      "file": "FOF-02-2-cycle-blue-on-slate.mp4"
+    },
+    {
+      "title": "Mark — green on blue",
+      "file": "FOF-03-mark-green-on-blue.mp4"
+    },
+    {
+      "title": "Mark — slate on green",
+      "file": "FOF-04-mark-slate-on-green.mp4"
     }
   ]
 }
