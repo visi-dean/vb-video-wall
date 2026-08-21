@@ -1,0 +1,25 @@
+{
+  "title": "Visibuild Office Wall",
+  "eyebrow": "Test playlist",
+  "autoStartSeconds": 60,
+  "videos": [
+    {
+      "title": "Test clip one",
+      "note": "Public sample file — swap for your own",
+      "duration": "0:15",
+      "file": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    },
+    {
+      "title": "Test clip two",
+      "note": "Public sample file — swap for your own",
+      "duration": "0:15",
+      "file": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+    },
+    {
+      "title": "Test clip three",
+      "note": "Public sample file — swap for your own",
+      "duration": "0:15",
+      "file": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+    }
+  ]
+}
