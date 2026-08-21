@@ -1,40 +1,47 @@
 {
-  "title": "Visibuild Office Wall",
-  "eyebrow": "Brand loops",
+  "title": "Friends of Figma",
   "autoStartSeconds": 60,
   "livePreviews": true,
 
   "videos": [
     {
       "title": "Wordmark — white on blue",
+      "short": "Wordmark white",
       "file": "FOF-00-wordmark-white-on-blue.mp4"
     },
     {
       "title": "Wordmark — green on slate",
+      "short": "Wordmark green",
       "file": "FOF-00-2-wordmark-green-on-slate.mp4"
     },
     {
       "title": "Mark — slate on orange",
+      "short": "Mark orange",
       "file": "FOF-01-mark-slate-on-orange.mp4"
     },
     {
       "title": "Mark — green on slate",
+      "short": "Mark slate",
       "file": "FOF-02-mark-green-on-slate.mp4"
     },
     {
       "title": "Cycle — purple on slate",
+      "short": "Cycle purple",
       "file": "FOF-02-1-cycle-purple-on-slate.mp4"
     },
     {
       "title": "Cycle — blue on slate",
+      "short": "Cycle blue",
       "file": "FOF-02-2-cycle-blue-on-slate.mp4"
     },
     {
       "title": "Mark — green on blue",
+      "short": "Mark blue",
       "file": "FOF-03-mark-green-on-blue.mp4"
     },
     {
       "title": "Mark — slate on green",
+      "short": "Mark green",
       "file": "FOF-04-mark-slate-on-green.mp4"
     }
   ]
