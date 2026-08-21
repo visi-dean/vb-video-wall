@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FFFFFF">
-<title>Video Wall</title>
+<title>Visibuild Looper</title>
 <style>
   :root{
     --paper:#FFFFFF;
     --ink:#0B0B0C;
     --ink-70:rgba(11,11,12,0.62);
     --ink-40:rgba(11,11,12,0.34);
+    --ink-25:rgba(11,11,12,0.22);
     --rule:rgba(11,11,12,0.13);
     --card-edge:rgba(11,11,12,0.16);
   }
@@ -47,346 +48,209 @@
 
   /* ============ MENU ============ */
 
-  #menu{
-    position:absolute;
-    top:0; left:0; right:0; bottom:0;
-    display:block;
-  }
-
+  #menu{ position:absolute; top:0; left:0; right:0; bottom:0; display:block; }
   #menu.is-hidden{ display:none; }
 
-  /* --- top bar --- */
-
   .topbar{
-    position:absolute;
-    top:0; left:0; right:0;
-    z-index:30;
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
+    position:absolute; top:0; left:0; right:0; z-index:30;
+    display:flex; align-items:flex-start; justify-content:space-between;
     padding:2.4vw 2.6vw 0 2.6vw;
     pointer-events:none;
   }
 
-  .brand{
-    border:1px solid var(--rule);
-    padding:0.85em 1.15em;
-    background:var(--paper);
-  }
-
+  .brand{ border:1px solid var(--rule); padding:0.85em 1.15em; background:var(--paper); }
   .brand .label{ color:var(--ink); }
   .brand .label em{ font-style:normal; color:var(--ink-40); }
 
   .counter{
-    border:1px solid var(--rule);
-    padding:0.85em 1.15em;
-    background:var(--paper);
-    text-align:right;
+    border:1px solid var(--rule); padding:0.85em 1.15em;
+    background:var(--paper); text-align:right;
   }
-
   .counter .big{
-    font-size:1.5em;
-    font-weight:800;
-    letter-spacing:-0.03em;
-    line-height:1;
-    display:block;
+    font-size:1.5em; font-weight:800; letter-spacing:-0.03em;
+    line-height:1; display:block;
   }
-
   .counter .label{ color:var(--ink-40); margin-top:0.55em; }
 
-  /* --- the deck --- */
+  /* --- deck --- */
 
   #stage{
-    position:absolute;
-    top:0; left:0; right:0; bottom:0;
-    perspective:1700px;
-    perspective-origin:38% 52%;
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    perspective:1700px; perspective-origin:38% 52%;
     overflow:hidden;
   }
 
   #deck{
-    position:absolute;
-    top:0; left:0; width:100%; height:100%;
+    position:absolute; top:0; left:0; width:100%; height:100%;
     transform-style:preserve-3d;
   }
 
-  #deck.is-hidden{ display:none; }
-
   .plane{
-    position:absolute;
-    left:34%;
-    top:53%;
-    width:42vw;
-    height:23.6vw;
+    position:absolute; left:34%; top:53%;
+    width:42vw; height:23.6vw;
     margin:0; padding:0; border:0;
     background:#F2F2F3;
-    box-shadow:0 2px 40px rgba(11,11,12,0.13);
-    outline:1px solid var(--card-edge);
-    outline-offset:-1px;
+    box-shadow:0 2px 40px rgba(11,11,12,0.13), inset 0 0 0 1px var(--card-edge);
     overflow:hidden;
     cursor:pointer;
     transform-origin:50% 50%;
-    transition:transform .55s cubic-bezier(.22,.61,.36,1), opacity .45s ease, box-shadow .45s ease;
+    transition:transform .5s cubic-bezier(.22,.61,.36,1), opacity .4s ease, box-shadow .3s ease;
   }
 
   .plane-media{
-    position:absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    display:block;
-    object-fit:cover;
-    background:#F2F2F3;
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    display:block; object-fit:cover; background:#F2F2F3;
   }
 
   .plane-num{
-    position:absolute;
-    top:0; left:0;
-    z-index:2;
+    position:absolute; top:0; left:0; z-index:2;
     padding:0.55em 0.85em;
-    background:var(--paper);
-    color:var(--ink);
+    background:var(--paper); color:var(--ink);
     border-right:1px solid var(--card-edge);
     border-bottom:1px solid var(--card-edge);
   }
 
-  .plane.is-front{ box-shadow:0 14px 70px rgba(11,11,12,0.22); }
+  .plane.is-front{ box-shadow:0 14px 70px rgba(11,11,12,0.2), inset 0 0 0 1px var(--card-edge); }
+  .plane.is-front.is-cursor{ box-shadow:0 14px 70px rgba(11,11,12,0.24), inset 0 0 0 5px var(--ink); }
 
-  /* --- grid view --- */
+  /* --- grid --- */
 
   #grid{
-    position:absolute;
-    top:0; left:0; right:0; bottom:0;
-    padding:9vw 2.6vw 14vw 2.6vw;
-    overflow-y:auto;
-    display:none;
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    padding:9vw 2.6vw 15vw 2.6vw;
+    overflow-y:auto; display:none;
   }
-
   #grid.is-visible{ display:block; }
 
-  #grid-inner{
-    display:flex;
-    flex-wrap:wrap;
-    margin:-0.7vw;
-  }
+  #grid-inner{ display:flex; flex-wrap:wrap; margin:-0.7vw; }
 
   .tile{
-    width:25%;
-    padding:0.7vw;
-    border:0; background:transparent;
-    font:inherit; color:inherit; text-align:left;
-    cursor:pointer;
+    width:25%; padding:0.7vw;
+    border:0; background:transparent; font:inherit; color:inherit;
+    text-align:left; cursor:pointer;
   }
 
   .tile-frame{
-    position:relative;
-    width:100%;
-    padding-top:56.25%;
-    background:#F2F2F3;
-    outline:1px solid var(--card-edge);
-    outline-offset:-1px;
-    overflow:hidden;
-    transition:outline-color .18s ease;
+    position:relative; width:100%; padding-top:56.25%;
+    background:#F2F2F3; overflow:hidden;
+    box-shadow:inset 0 0 0 1px var(--card-edge);
+    transition:box-shadow .18s ease;
   }
 
-  .tile.is-front .tile-frame{
-    outline:3px solid var(--ink);
-    outline-offset:-3px;
-  }
+  .tile.is-front .tile-frame{ box-shadow:inset 0 0 0 2px var(--ink-25); }
+  .tile.is-front.is-cursor .tile-frame{ box-shadow:inset 0 0 0 5px var(--ink); }
 
-  .tile-caption{
-    margin-top:0.8em;
-    color:var(--ink-70);
-  }
-
+  .tile-caption{ margin-top:0.8em; color:var(--ink-40); }
   .tile.is-front .tile-caption{ color:var(--ink); }
 
-  /* --- bottom bar --- */
+  /* --- bottom --- */
 
   .bottombar{
-    position:absolute;
-    left:0; right:0; bottom:0;
-    z-index:30;
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
+    position:absolute; left:0; right:0; bottom:0; z-index:30;
+    display:flex; align-items:flex-end; justify-content:space-between;
     padding:0 2.6vw 2.4vw 2.6vw;
     pointer-events:none;
   }
 
-  .now{ max-width:46%; }
+  .now{ max-width:60%; }
 
-  .views{
-    display:flex;
-    margin-bottom:1.3em;
-    pointer-events:auto;
-  }
+  .views{ display:flex; margin-bottom:1.3em; pointer-events:auto; }
 
   .view-btn{
-    border:1px solid var(--rule);
-    border-right:0;
-    background:var(--paper);
-    color:var(--ink-40);
-    padding:0.85em 1.3em;
-    cursor:pointer;
-    font:inherit;
+    border:1px solid var(--rule); border-right:0;
+    background:var(--paper); color:var(--ink-40);
+    padding:0.85em 1.3em; cursor:pointer; font:inherit;
+    position:relative;
   }
-
   .view-btn:last-child{ border-right:1px solid var(--rule); }
   .view-btn.is-on{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .view-btn.is-cursor{ outline:4px solid var(--ink); outline-offset:3px; z-index:2; }
 
   #now-title{
-    margin:0;
-    font-size:3.5vw;
-    font-weight:800;
-    letter-spacing:-0.035em;
-    line-height:0.98;
+    margin:0; font-size:3.5vw; font-weight:800;
+    letter-spacing:-0.035em; line-height:0.98;
   }
 
-  #now-note{
-    margin:0.7em 0 0 0;
-    color:var(--ink-40);
-  }
+  #now-hint{ margin:0.9em 0 0 0; color:var(--ink-40); }
+  #now-hint b{ color:var(--ink); font-weight:700; }
+
+  /* --- tucked index --- */
 
   .pills{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:flex-end;
-    max-width:46%;
-    margin:-0.28em;
-    pointer-events:auto;
+    display:flex; flex-wrap:wrap; justify-content:flex-end;
+    max-width:30%; margin:-0.16em; pointer-events:auto;
+    opacity:0.75;
   }
 
   .pill{
-    margin:0.28em;
-    border:1px solid var(--rule);
-    border-radius:2em;
-    background:var(--paper);
-    color:var(--ink-40);
-    padding:0.7em 1.05em;
-    cursor:pointer;
-    font:inherit;
+    margin:0.16em;
+    border:1px solid var(--rule); border-radius:2em;
+    background:var(--paper); color:var(--ink-40);
+    padding:0.45em 0.7em; cursor:pointer; font:inherit;
+    font-size:0.46em; letter-spacing:0.13em;
     white-space:nowrap;
-    transition:background-color .18s ease, color .18s ease, border-color .18s ease;
+    transition:background-color .16s ease, color .16s ease, border-color .16s ease;
   }
-
-  .pill sup{
-    font-size:0.78em;
-    margin-left:0.5em;
-    vertical-align:baseline;
-    color:var(--ink-40);
-  }
-
+  .pill sup{ font-size:0.85em; margin-left:0.45em; vertical-align:baseline; color:var(--ink-25); }
   .pill.is-on{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
-  .pill.is-on sup{ color:rgba(255,255,255,0.6); }
-
-  .keyhint{
-    position:absolute;
-    left:2.6vw; bottom:2.4vw;
-    color:var(--ink-40);
-    display:none;
-  }
+  .pill.is-on sup{ color:rgba(255,255,255,0.55); }
 
   #status{
-    position:absolute;
-    left:2.6vw; top:40%;
-    max-width:32em;
-    line-height:1.65;
-    color:var(--ink-70);
+    position:absolute; left:2.6vw; top:38%;
+    max-width:32em; line-height:1.65; color:var(--ink-70);
   }
-
   #status strong{ display:block; font-size:1.5em; color:var(--ink); margin-bottom:0.5em; letter-spacing:-0.02em; }
   #status code{
     font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    border:1px solid var(--rule);
-    padding:0.1em 0.4em;
+    border:1px solid var(--rule); padding:0.1em 0.4em;
   }
 
   /* ============ PLAYER ============ */
 
   #player{
-    position:fixed;
-    top:0; left:0; right:0; bottom:0;
-    background:#000;
-    display:none;
-    z-index:100;
+    position:fixed; top:0; left:0; right:0; bottom:0;
+    background:#000; display:none; z-index:100;
   }
-
   #player.is-active{ display:block; }
 
-  #video{
-    width:100%; height:100%;
-    display:block;
-    background:#000;
-    object-fit:contain;
-  }
+  #video{ width:100%; height:100%; display:block; background:#000; object-fit:contain; }
 
   #hud{
-    position:absolute;
-    top:0; left:0; right:0; bottom:0;
-    opacity:1;
-    transition:opacity .45s ease;
+    position:absolute; top:0; left:0; right:0; bottom:0;
+    opacity:1; transition:opacity .4s ease;
   }
-
   #hud.is-hidden{ opacity:0; pointer-events:none; }
 
   .hud-top{
-    position:absolute;
-    top:0; left:0; right:0;
+    position:absolute; top:0; left:0; right:0;
     padding:2.2vw 2.6vw 5vw 2.6vw;
     background:linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0));
-    color:#fff;
-    pointer-events:none;
+    color:#fff; pointer-events:none;
   }
-
-  #hud-title{
-    margin:0;
-    font-size:2.1vw;
-    font-weight:800;
-    letter-spacing:-0.03em;
-    line-height:1;
-  }
-
-  #hud-status{
-    margin:0.85em 0 0 0;
-    color:rgba(255,255,255,0.62);
-  }
+  #hud-title{ margin:0; font-size:2.1vw; font-weight:800; letter-spacing:-0.03em; line-height:1; }
+  #hud-status{ margin:0.85em 0 0 0; color:rgba(255,255,255,0.62); }
 
   .hud-bottom{
-    position:absolute;
-    left:0; right:0; bottom:0;
+    position:absolute; left:0; right:0; bottom:0;
     padding:6vw 2.6vw 2.4vw 2.6vw;
     background:linear-gradient(to top, rgba(0,0,0,0.78), rgba(0,0,0,0));
-    display:flex;
-    justify-content:center;
+    display:flex; justify-content:center;
   }
 
   .hud-btn{
     margin:0 0.4em;
-    border:2px solid rgba(255,255,255,0.42);
-    border-radius:2.4em;
-    background:rgba(0,0,0,0.35);
-    color:#fff;
-    padding:0.95em 1.7em;
-    font:inherit;
-    cursor:pointer;
+    border:2px solid rgba(255,255,255,0.4); border-radius:2.4em;
+    background:rgba(0,0,0,0.35); color:#fff;
+    padding:0.95em 1.7em; font:inherit; cursor:pointer;
     transition:background-color .16s ease, color .16s ease, border-color .16s ease, transform .16s ease;
   }
-
-  .hud-btn.is-on{
-    background:#fff;
-    color:#0B0B0C;
-    border-color:#fff;
-    transform:scale(1.06);
-  }
-
-  /* ============ Responsive ============ */
+  .hud-btn.is-on{ background:#fff; color:#0B0B0C; border-color:#fff; transform:scale(1.06); }
 
   @media (max-width:900px){
     body{ font-size:14px; }
     #stage{ display:none; }
-    #grid{ display:block; padding:22vw 5vw 30vw 5vw; }
+    #grid{ display:block; padding:22vw 5vw 32vw 5vw; }
     .tile{ width:50%; }
-    .views{ display:none; }
     .pills{ display:none; }
     #now-title{ font-size:7vw; }
     .now{ max-width:100%; }
@@ -404,16 +268,14 @@
 <div id="menu">
 
   <div class="topbar">
-    <div class="brand"><span class="label" id="brand-label">Video wall <em>&mdash; select to loop</em></span></div>
+    <div class="brand"><span class="label" id="brand-label">Visibuild Looper <em>/ select to loop</em></span></div>
     <div class="counter">
       <span class="big num" id="counter-now">00</span>
       <span class="label num" id="counter-total">of 00</span>
     </div>
   </div>
 
-  <div id="stage">
-    <div id="deck"></div>
-  </div>
+  <div id="stage"><div id="deck"></div></div>
 
   <div id="grid"><div id="grid-inner"></div></div>
 
@@ -423,8 +285,8 @@
         <button class="view-btn is-on label" type="button" id="view-stack">Stack</button>
         <button class="view-btn label" type="button" id="view-grid">Grid</button>
       </div>
-      <h1 id="now-title">Video wall</h1>
-      <p class="label" id="now-note">&#9668; &#9658; browse &nbsp;&middot;&nbsp; OK play &nbsp;&middot;&nbsp; G change view</p>
+      <h1 id="now-title">Visibuild Looper</h1>
+      <p class="label" id="now-hint"></p>
     </div>
     <div class="pills" id="pills"></div>
   </div>
@@ -453,6 +315,7 @@
   'use strict';
 
   var deck = document.getElementById('deck');
+  var stage = document.getElementById('stage');
   var gridWrap = document.getElementById('grid');
   var gridInner = document.getElementById('grid-inner');
   var pillsEl = document.getElementById('pills');
@@ -464,12 +327,11 @@
   var hudTitle = document.getElementById('hud-title');
   var hudStatus = document.getElementById('hud-status');
   var nowTitle = document.getElementById('now-title');
-  var nowNote = document.getElementById('now-note');
+  var nowHint = document.getElementById('now-hint');
   var brandLabel = document.getElementById('brand-label');
   var counterNow = document.getElementById('counter-now');
   var counterTotal = document.getElementById('counter-total');
-  var viewStackBtn = document.getElementById('view-stack');
-  var viewGridBtn = document.getElementById('view-grid');
+  var viewBtns = [document.getElementById('view-stack'), document.getElementById('view-grid')];
   var hudButtons = [].slice.call(document.querySelectorAll('.hud-btn'));
 
   var videos = [];
@@ -483,8 +345,10 @@
   var currentIndex = -1;
   var playAll = false;
   var muted = true;
-  var view = 'stack';
-  var gridCols = 4;
+
+  var zone = 'deck';        // 'deck' or 'views'
+  var viewCursor = 0;       // which of Stack / Grid the selector sits on
+  var view = 'stack';       // which view is actually applied
 
   var hudVisible = true;
   var hudFocus = 0;
@@ -494,7 +358,10 @@
   var idleSeconds = 60;
   var wakeLock = null;
 
+  var ARROW_L = '\u25C0', ARROW_R = '\u25B6', ARROW_U = '\u25B2', ARROW_D = '\u25BC';
+
   function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function wrap(i) { var n = videos.length; return ((i % n) + n) % n; }
 
   /* ---------- Load ---------- */
 
@@ -506,7 +373,7 @@
       })
       .then(function (data) {
         if (data && data.title) {
-          brandLabel.innerHTML = data.title + ' <em>&mdash; select to loop</em>';
+          brandLabel.innerHTML = data.title + ' <em>/ select to loop</em>';
           document.title = data.title;
         }
         if (data && typeof data.autoStartSeconds === 'number') { idleSeconds = data.autoStartSeconds; }
@@ -548,7 +415,6 @@
       tiles.push(makeTile(videos[i], i));
       pills.push(makePill(videos[i], i));
     }
-    measureGrid();
     setFocus(0);
   }
 
@@ -585,24 +451,22 @@
     el.className = 'plane';
     el.type = 'button';
     el.appendChild(makeMedia(v, i, 'plane-media'));
-
     var n = document.createElement('span');
     n.className = 'plane-num label num';
     n.textContent = pad(i + 1);
     el.appendChild(n);
-
     el.addEventListener('click', function () {
+      zone = 'deck';
       if (i === focusIndex) { play(i, false); } else { setFocus(i); }
     });
+    el._d = null;
     deck.appendChild(el);
     return el;
   }
 
   function makeTile(v, i) {
     var btn = document.createElement('button');
-    btn.className = 'tile';
-    btn.type = 'button';
-
+    btn.className = 'tile'; btn.type = 'button';
     var frame = document.createElement('div');
     frame.className = 'tile-frame';
     frame.appendChild(makeMedia(v, i, 'plane-media'));
@@ -610,14 +474,12 @@
     n.className = 'plane-num label num';
     n.textContent = pad(i + 1);
     frame.appendChild(n);
-
     var cap = document.createElement('div');
     cap.className = 'tile-caption label';
     cap.textContent = v.title || ('Video ' + (i + 1));
-
-    btn.appendChild(frame);
-    btn.appendChild(cap);
+    btn.appendChild(frame); btn.appendChild(cap);
     btn.addEventListener('click', function () {
+      zone = 'deck';
       if (i === focusIndex) { play(i, false); } else { setFocus(i); }
     });
     gridInner.appendChild(btn);
@@ -626,75 +488,85 @@
 
   function makePill(v, i) {
     var b = document.createElement('button');
-    b.className = 'pill label';
-    b.type = 'button';
+    b.className = 'pill label'; b.type = 'button';
     b.innerHTML = (v.short || v.title || ('Video ' + (i + 1))) + '<sup class="num">' + pad(i + 1) + '</sup>';
-    b.addEventListener('click', function () { setFocus(i); });
+    b.addEventListener('click', function () { zone = 'deck'; setFocus(i); });
     pillsEl.appendChild(b);
     return b;
   }
 
-  function measureGrid() {
-    if (!tiles.length) { return; }
-    var w = gridInner.getBoundingClientRect().width;
-    var tw = tiles[0].getBoundingClientRect().width;
-    gridCols = Math.max(1, Math.round(w / (tw || w)));
-  }
-
-  /* ---------- Focus ---------- */
+  /* ---------- Selector ---------- */
 
   function setFocus(i) {
     if (!videos.length) { return; }
-    if (i < 0) { i = 0; }
-    if (i > videos.length - 1) { i = videos.length - 1; }
-    focusIndex = i;
-
+    focusIndex = wrap(i);
     layoutDeck();
-
-    for (var t = 0; t < tiles.length; t++) {
-      tiles[t].className = (t === focusIndex) ? 'tile is-front' : 'tile';
-      pills[t].className = (t === focusIndex) ? 'pill label is-on' : 'pill label';
-    }
+    paintSelection();
 
     var v = videos[focusIndex];
     nowTitle.textContent = v.title || ('Video ' + (focusIndex + 1));
-    nowNote.innerHTML = v.note
-      ? v.note
-      : '&#9668; &#9658; browse &nbsp;&middot;&nbsp; OK play &nbsp;&middot;&nbsp; G change view';
     counterNow.textContent = pad(focusIndex + 1);
 
     if (view === 'grid') { scrollTileIntoView(tiles[focusIndex]); }
     updatePreviews();
   }
 
-  function layoutDeck() {
-    for (var i = 0; i < planes.length; i++) {
-      var d = i - focusIndex;
-      var el = planes[i];
-      var op, x, y, z;
+  function paintSelection() {
+    var onDeck = (zone === 'deck');
 
-      if (d < 0) {
-        // already passed: slide out towards the viewer, bottom-left
-        x = d * 5 - 6; y = -d * 3 + 5; z = -d * 200 + 160;
-        op = 0;
-      } else {
-        x = d * 7.1; y = d * -3.5; z = d * -150;
-        op = Math.max(0.1, 1 - d * 0.135);
-      }
+    for (var t = 0; t < tiles.length; t++) {
+      var front = (t === focusIndex);
+      tiles[t].className = 'tile' + (front ? ' is-front' : '') + (front && onDeck ? ' is-cursor' : '');
+      pills[t].className = 'pill label' + (front ? ' is-on' : '');
+    }
+
+    for (var p = 0; p < planes.length; p++) {
+      var isFront = (p === focusIndex);
+      planes[p].className = 'plane' + (isFront ? ' is-front' : '') + (isFront && onDeck ? ' is-cursor' : '');
+    }
+
+    for (var b = 0; b < viewBtns.length; b++) {
+      var isOn = (b === 0 ? view === 'stack' : view === 'grid');
+      viewBtns[b].className = 'view-btn label' + (isOn ? ' is-on' : '') +
+        (!onDeck && b === viewCursor ? ' is-cursor' : '');
+    }
+
+    nowHint.innerHTML = onDeck
+      ? '<b>' + ARROW_L + ' ' + ARROW_R + '</b> browse &nbsp; <b>OK</b> play &nbsp; <b>' + ARROW_D + '</b> layout'
+      : '<b>' + ARROW_L + ' ' + ARROW_R + '</b> choose layout &nbsp; <b>OK</b> apply &nbsp; <b>' + ARROW_U + '</b> back to videos';
+  }
+
+  function layoutDeck() {
+    var n = planes.length;
+    var maxDepth = Math.min(n - 1, 9);
+
+    for (var i = 0; i < n; i++) {
+      var el = planes[i];
+      var d = wrap(i - focusIndex);           // always forward: the deck is a loop
+      var hidden = d > maxDepth;
+      var x = d * 7.1, y = d * -3.5, z = d * -150;
+      var op = hidden ? 0 : Math.max(0.1, 1 - d * 0.135);
+
+      var jumped = (el._d !== null && Math.abs(d - el._d) > 1);
+      if (jumped) { el.style.transition = 'none'; }
 
       el.style.opacity = op;
-      el.style.zIndex = String(200 - Math.abs(d));
+      el.style.zIndex = String(300 - d);
       el.style.pointerEvents = (op < 0.2) ? 'none' : 'auto';
       el.style.transform =
         'translate(-50%, -50%) translate3d(' + x + 'vw, ' + y + 'vw, ' + z + 'px) ' +
         'rotateY(-31deg) rotateX(3deg)';
-      el.className = (d === 0) ? 'plane is-front' : 'plane';
+
+      if (jumped) {
+        void el.offsetHeight;                 // force the jump to land before animating again
+        el.style.transition = '';
+      }
+      el._d = d;
     }
   }
 
   function scrollTileIntoView(el) {
-    var top = el.offsetTop;
-    var bottom = top + el.offsetHeight;
+    var top = el.offsetTop, bottom = top + el.offsetHeight;
     if (top < gridWrap.scrollTop) { gridWrap.scrollTop = top - 30; }
     else if (bottom > gridWrap.scrollTop + gridWrap.clientHeight) {
       gridWrap.scrollTop = bottom - gridWrap.clientHeight + 30;
@@ -703,18 +575,14 @@
 
   function setView(next) {
     view = next;
-    var stack = (view === 'stack');
-    deck.className = stack ? '' : 'is-hidden';
-    document.getElementById('stage').style.display = stack ? 'block' : 'none';
-    gridWrap.className = stack ? '' : 'is-visible';
-    viewStackBtn.className = stack ? 'view-btn is-on label' : 'view-btn label';
-    viewGridBtn.className = stack ? 'view-btn label' : 'view-btn is-on label';
-    measureGrid();
+    var stackOn = (view === 'stack');
+    stage.style.display = stackOn ? 'block' : 'none';
+    gridWrap.className = stackOn ? '' : 'is-visible';
     setFocus(focusIndex);
   }
 
-  viewStackBtn.addEventListener('click', function () { setView('stack'); });
-  viewGridBtn.addEventListener('click', function () { setView('grid'); });
+  viewBtns[0].addEventListener('click', function () { zone = 'views'; viewCursor = 0; setView('stack'); });
+  viewBtns[1].addEventListener('click', function () { zone = 'views'; viewCursor = 1; setView('grid'); });
 
   /* ---------- Previews ---------- */
 
@@ -726,7 +594,7 @@
         var el = group[j];
         if (livePreviews && i === focusIndex && currentIndex === -1) {
           var pr = el.play();
-          if (pr && typeof pr.catch === 'function') { pr.catch(function () { /* frame still shows */ }); }
+          if (pr && typeof pr.catch === 'function') { pr.catch(function () { /* still frame shows */ }); }
         } else {
           el.pause();
         }
@@ -744,6 +612,7 @@
   /* ---------- Play ---------- */
 
   function play(i, all) {
+    i = wrap(i);
     if (!videos[i]) { return; }
     currentIndex = i;
     playAll = !!all;
@@ -759,8 +628,8 @@
     playerEl.className = 'is-active';
 
     hudTitle.textContent = v.title || ('Video ' + (i + 1));
-    updateHudStatus();
     hudFocus = 0;
+    updateHudStatus();
     showHud();
 
     var p = videoEl.play();
@@ -781,27 +650,27 @@
     menuEl.className = '';
     currentIndex = -1;
     playAll = false;
+    zone = 'deck';
     if (location.hash) { history.replaceState(null, '', location.pathname + location.search); }
-    measureGrid();
     setFocus(focusIndex);
     resetIdle();
   }
 
-  function nextVideo() { play((currentIndex + 1) % videos.length, playAll); }
-  function prevVideo() { play((currentIndex - 1 + videos.length) % videos.length, playAll); }
+  function nextVideo() { play(currentIndex + 1, playAll); }
+  function prevVideo() { play(currentIndex - 1, playAll); }
 
   videoEl.addEventListener('ended', function () { if (playAll) { nextVideo(); } });
 
   videoEl.addEventListener('error', function () {
     hudTitle.textContent = 'That file would not play';
-    hudStatus.textContent = 'Check the path in videos.json — ' +
+    hudStatus.textContent = 'Check the path in videos.json: ' +
       (videos[currentIndex] ? videos[currentIndex].file : '');
     showHud(true);
   });
 
   function updateHudStatus() {
-    var mode = playAll ? ('Playing all — ' + (currentIndex + 1) + ' of ' + videos.length) : 'Looping';
-    hudStatus.textContent = mode + '  ·  ' + (muted ? 'Muted' : 'Sound on');
+    var mode = playAll ? ('Playing all, ' + (currentIndex + 1) + ' of ' + videos.length) : 'Looping';
+    hudStatus.textContent = mode + '  /  ' + (muted ? 'Muted' : 'Sound on');
     hudButtons[3].textContent = muted ? 'Sound on' : 'Mute';
     paintHudFocus();
   }
@@ -827,9 +696,7 @@
     hudEl.className = '';
     paintHudFocus();
     if (hudTimer) { clearTimeout(hudTimer); hudTimer = null; }
-    if (!sticky) {
-      hudTimer = setTimeout(hideHud, 4500);
-    }
+    if (!sticky) { hudTimer = setTimeout(hideHud, 4500); }
   }
 
   function hideHud() {
@@ -845,17 +712,14 @@
     else if (act === 'sound') { toggleMute(); }
   }
 
-  for (var b = 0; b < hudButtons.length; b++) {
+  for (var b2 = 0; b2 < hudButtons.length; b2++) {
     (function (idx) {
       hudButtons[idx].addEventListener('click', function (e) {
         e.stopPropagation();
         hudFocus = idx;
         runHudAction(hudButtons[idx].getAttribute('data-act'));
       });
-      hudButtons[idx].addEventListener('mouseenter', function () {
-        hudFocus = idx; showHud();
-      });
-    })(b);
+    })(b2);
   }
 
   playerEl.addEventListener('mousemove', function () { if (!hudVisible) { showHud(); } });
@@ -884,7 +748,7 @@
     var el = document.documentElement;
     var fn = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
     if (fn && !document.fullscreenElement && !document.webkitFullscreenElement) {
-      try { fn.call(el); } catch (e) { /* already fullscreen on TV */ }
+      try { fn.call(el); } catch (e) { /* TV is already fullscreen */ }
     }
   }
 
@@ -916,9 +780,9 @@
   }
 
   window.addEventListener('hashchange', applyHash);
-  window.addEventListener('resize', function () { measureGrid(); layoutDeck(); });
+  window.addEventListener('resize', function () { layoutDeck(); });
 
-  /* ---------- Keys ---------- */
+  /* ---------- Remote ---------- */
 
   document.addEventListener('keydown', function (e) {
     var k = e.keyCode;
@@ -928,18 +792,13 @@
     if (k === 27 || k === 8 || k === 461 || k === 10009) {
       e.preventDefault();
       if (currentIndex > -1) { stop(); }
+      else if (zone === 'views') { zone = 'deck'; paintSelection(); }
       return;
     }
 
     if (k === 77) { if (currentIndex > -1) { toggleMute(); } return; }   // M
     if (k === 70) { goFullscreen(); return; }                            // F
 
-    if (k === 71) {                                                      // G
-      if (currentIndex === -1) { setView(view === 'stack' ? 'grid' : 'stack'); }
-      return;
-    }
-
-    // Number keys jump straight to a video, 0 plays everything
     var n = -1;
     if (k >= 48 && k <= 57) { n = k - 48; }
     if (k >= 96 && k <= 105) { n = k - 96; }
@@ -950,12 +809,11 @@
       return;
     }
 
+    /* --- while a video is playing --- */
     if (currentIndex > -1) {
-      // --- Playing ---
       if (!hudVisible) {
-        // First press just wakes the controls up
         if (k === 37 || k === 39 || k === 38 || k === 40 || k === 13 || k === 32) {
-          e.preventDefault(); showHud(); return;
+          e.preventDefault(); showHud(); return;   // first press only wakes the controls
         }
         return;
       }
@@ -966,18 +824,24 @@
       return;
     }
 
-    // --- Menu ---
+    /* --- menu --- */
     resetIdle();
-    if (view === 'stack') {
-      if (k === 37 || k === 38) { setFocus(focusIndex - 1); e.preventDefault(); }
-      if (k === 39 || k === 40) { setFocus(focusIndex + 1); e.preventDefault(); }
-    } else {
+
+    if (zone === 'deck') {
       if (k === 37) { setFocus(focusIndex - 1); e.preventDefault(); }
       if (k === 39) { setFocus(focusIndex + 1); e.preventDefault(); }
-      if (k === 38) { setFocus(focusIndex - gridCols); e.preventDefault(); }
-      if (k === 40) { setFocus(focusIndex + gridCols); e.preventDefault(); }
+      if (k === 40) { zone = 'views'; viewCursor = (view === 'stack' ? 0 : 1); paintSelection(); e.preventDefault(); }
+      if (k === 38) { e.preventDefault(); }
+      if (k === 13 || k === 32) { play(focusIndex, false); e.preventDefault(); }
+      return;
     }
-    if (k === 13 || k === 32) { play(focusIndex, false); e.preventDefault(); }
+
+    // zone === 'views'
+    if (k === 37) { viewCursor = (viewCursor + viewBtns.length - 1) % viewBtns.length; paintSelection(); e.preventDefault(); }
+    if (k === 39) { viewCursor = (viewCursor + 1) % viewBtns.length; paintSelection(); e.preventDefault(); }
+    if (k === 38) { zone = 'deck'; paintSelection(); e.preventDefault(); }
+    if (k === 40) { e.preventDefault(); }
+    if (k === 13 || k === 32) { setView(viewCursor === 0 ? 'stack' : 'grid'); e.preventDefault(); }
   });
 
   document.addEventListener('mousemove', function () {
